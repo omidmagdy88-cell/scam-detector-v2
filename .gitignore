@@ -1,0 +1,8 @@
+pycache/
+*.pyc
+urls.json
+phishing_dataset_huge.csv
+phishing_dataset_big.csv
+phishing_dataset_final.csv
+phishing_only.txt
+phishing_dataset_balanced.csv
