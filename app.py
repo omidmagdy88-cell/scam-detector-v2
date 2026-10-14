@@ -5,7 +5,7 @@ import whois
 from datetime import datetime
 from urllib.parse import urlparse
 
-app = Flask(__name__)
+app = Flask(name)
 model = joblib.load('phishing_model.pkl')
 
 def extract_features(url):
@@ -16,17 +16,9 @@ def extract_features(url):
     special_chars = sum(1 for c in url if c in '-_=%@?&')
     domain_part = url.replace('https://', '').replace('http://', '').split('/')[0]
     return [
-        len(url),
-        url.count('.'),
-        url.count('-'),
-        url.count('/'),
-        url.count('@'),
-        url.count('?'),
-        url.count('='),
-        url.count('&'),
-        sum(c.isdigit() for c in url),
-        special_chars,
-        len(domain_part),
+        len(url), url.count('.'), url.count('-'), url.count('/'),
+        url.count('@'), url.count('?'), url.count('='), url.count('&'),
+        sum(c.isdigit() for c in url), special_chars, len(domain_part),
         domain_part.count('.'),
         1 if re.search(r'\d+\.\d+\.\d+\.\d+', url) else 0,
         1 if url.startswith('https') else 0,
@@ -69,7 +61,7 @@ def home():
             if age < 180:
                 reasons.append('<li class="warn">⚠️ دامنه فقط ' + str(age) + ' روز پیش ثبت شده است</li>')
             elif age < 365:
-                reasons.append('<li class="warn">⚠️ دامنه ' + str(age) + ' روز سابقه دارد (کم‌سابقه)</li>')
+                reasons.append('<li class="warn">⚠️ دامنه ' + str(age) + ' روز سابقه دارد</li>')
             else:
                 reasons.append('<li class="ok">✅ دامنه ' + str(age // 365) + ' سال سابقه دارد</li>')
         else:
@@ -81,15 +73,14 @@ def home():
             reasons.append('<li class="warn">⚠️ پروتکل HTTPS ندارد</li>')
         
         if pred == 1:
-            final = '<div class="result danger">❌ این سایت احتمالاً کلاهبرداری است</div>'
+            final = '<div class="result danger" id="resultText">❌ این سایت احتمالاً کلاهبرداری است</div>'
         else:
-            final = '<div class="result safe">✅ این سایت سالم به نظر می‌رسد</div>'
+            final = '<div class="result safe" id="resultText">✅ این سایت سالم به نظر می‌رسد</div>'
         
-        details = '<div class="details"><div class="score-box"><span class="score-label">امتیاز ریسک:</span><span class="score-value">' + str(round(score, 1)) + '%</span></div><h3>📋 دلایل تحلیل:</h3><ul>' + ''.join(reasons) + '</ul></div>'
+        details = '<div class="details"><div class="score-box"><span class="score-label">امتیاز ریسک:</span><span class="score-value">' + str(round(score, 1)) + '%</span></div><h3>📋 دلایل تحلیل:</h3><ul>' + ''.join(reasons) + '</ul><div class="action-buttons"><button onclick="saveToHistory(\'' + url + '\', ' + str(pred) + ', ' + str(round(score, 1)) + ')" class="btn-save">💾 ذخیره در تاریخچه</button><button onclick="downloadPDF(\'' + url + '\', ' + str(pred) + ', ' + str(round(score, 1)) + ')" class="btn-pdf">📄 دانلود PDF</button></div></div>'
         result = final + details
     
     return render_template('index.html', result=result)
 
 if __name__ == "__main__":
-    app.run(debug=True)
-    
+    app.run(host='0.0.0.0', port=10000, debug=False)

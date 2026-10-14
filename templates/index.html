@@ -6,90 +6,31 @@
 <title>سامانه هوشمند تشخیص کلاهبرداری</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { 
-    font-family: Tahoma, sans-serif; 
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    min-height: 100vh; 
-    padding: 40px 20px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.container { 
-    background: white; 
-    max-width: 750px; 
-    width: 100%;
-    padding: 50px; 
-    border-radius: 25px; 
-    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
-}
+body { font-family: Tahoma, sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; padding: 40px 20px; display: flex; align-items: center; justify-content: center; }
+.container { background: white; max-width: 750px; width: 100%; padding: 50px; border-radius: 25px; box-shadow: 0 30px 80px rgba(0,0,0,0.4); }
 .header { text-align: center; margin-bottom: 40px; }
 .header h1 { color: #1e3c72; font-size: 30px; margin-bottom: 10px; }
 .header p { color: #666; font-size: 15px; }
 .search-box { display: flex; gap: 10px; margin-bottom: 30px; }
-.search-box input { 
-    flex: 1;
-    padding: 18px 22px; 
-    border: 2px solid #e0e0e0; 
-    border-radius: 15px; 
-    font-size: 16px;
-    direction: ltr;
-    font-family: Tahoma;
-}
+.search-box input { flex: 1; padding: 18px 22px; border: 2px solid #e0e0e0; border-radius: 15px; font-size: 16px; direction: ltr; font-family: Tahoma; }
 .search-box input:focus { outline: none; border-color: #1e3c72; }
-.search-box button { 
-    padding: 18px 40px; 
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: white; 
-    border: none; 
-    border-radius: 15px; 
-    cursor: pointer; 
-    font-size: 16px; 
-    font-weight: bold;
-    font-family: Tahoma;
-}
-.search-box button:hover { transform: translateY(-2px); }
-.result { 
-    margin-top: 20px; 
-    padding: 25px; 
-    border-radius: 18px; 
-    font-size: 22px; 
-    font-weight: bold; 
-    text-align: center;
-}
+.search-box button { padding: 18px 40px; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 16px; font-weight: bold; font-family: Tahoma; }
+.result { margin-top: 20px; padding: 25px; border-radius: 18px; font-size: 22px; font-weight: bold; text-align: center; }
 .safe { background: #d4edda; color: #155724; border-right: 6px solid #28a745; }
 .danger { background: #f8d7da; color: #721c24; border-right: 6px solid #dc3545; }
-.details { 
-    margin-top: 25px; 
-    padding: 25px; 
-    background: #f8f9fa; 
-    border-radius: 15px; 
-    text-align: right;
-    border-right: 4px solid #1e3c72;
-}
+.details { margin-top: 25px; padding: 25px; background: #f8f9fa; border-radius: 15px; text-align: right; border-right: 4px solid #1e3c72; }
 .details h3 { color: #1e3c72; margin-bottom: 15px; font-size: 18px; }
 .details ul { list-style: none; line-height: 2.2; font-size: 15px; }
-.score-box {
-    background: white;
-    padding: 15px 20px;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+.score-box { background: white; padding: 15px 20px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
 .score-label { color: #666; font-size: 14px; }
 .score-value { color: #1e3c72; font-size: 22px; font-weight: bold; }
 .ok { color: #28a745; font-weight: bold; }
 .warn { color: #dc3545; font-weight: bold; }
-.scale-guide {
-    margin-top: 30px;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 15px;
-    text-align: right;
-    border-right: 4px solid #1e3c72;
-}
+.action-buttons { display: flex; gap: 10px; margin-top: 15px; }
+.btn-save, .btn-pdf { flex: 1; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-family: Tahoma; font-size: 14px; font-weight: bold; }
+.btn-save { background: #28a745; color: white; }
+.btn-pdf { background: #dc3545; color: white; }
+.scale-guide { margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 15px; text-align: right; border-right: 4px solid #1e3c72; }
 .scale-guide h3 { color: #1e3c72; margin-bottom: 15px; font-size: 16px; }
 .scale-item { padding: 8px 0; font-size: 14px; color: #333; display: flex; align-items: center; gap: 10px; }
 .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
@@ -98,26 +39,32 @@ body {
 .yellow { background: #ffc107; }
 .orange { background: #fd7e14; }
 .red { background: #dc3545; }
-
+.history-section { margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 15px; text-align: right; border-right: 4px solid #1e3c72; display: none; }
+.history-section h3 { color: #1e3c72; margin-bottom: 15px; font-size: 16px; }
+.history-item { padding: 12px; background: white; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+.history-item .url { color: #333; direction: ltr; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.history-item .badge { padding: 4px 10px; border-radius: 6px; color: white; font-size: 12px; font-weight: bold; margin-right: 10px; }
+.badge-safe { background: #28a745; }
+.badge-danger { background: #dc3545; }
+.history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.btn-clear { background: #dc3545; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-family: Tahoma; font-size: 12px; }
 @media (max-width: 768px) {
     body { padding: 15px 10px; }
     .container { padding: 25px 18px; border-radius: 18px; }
-    .header { margin-bottom: 25px; }
     .header h1 { font-size: 20px; line-height: 1.4; }
     .header p { font-size: 12px; }
-    .search-box { flex-direction: column; gap: 8px; margin-bottom: 20px; }
-    .search-box input { width: 100%; padding: 14px 16px; font-size: 14px; }
-    .search-box button { width: 100%; padding: 14px; font-size: 15px; }
-    .result { font-size: 16px; padding: 16px; margin-top: 15px; }
-    .details { padding: 16px; margin-top: 18px; }
-    .details h3 { font-size: 14px; margin-bottom: 10px; }
+    .search-box { flex-direction: column; gap: 8px; }
+    .search-box input { padding: 14px 16px; font-size: 14px; }
+    .search-box button { padding: 14px; font-size: 15px; }
+    .result { font-size: 16px; padding: 16px; }
+    .details { padding: 16px; }
+    .details h3 { font-size: 14px; }
     .details ul { font-size: 12px; line-height: 1.9; }
-    .score-box { padding: 12px 14px; }
-    .score-label { font-size: 12px; }
     .score-value { font-size: 18px; }
-    .scale-guide { padding: 14px; margin-top: 20px; }
-    .scale-guide h3 { font-size: 14px; margin-bottom: 10px; }
-    .scale-item { font-size: 11px; padding: 5px 0; gap: 7px; }
+    .action-buttons { flex-direction: column; }
+    .scale-guide { padding: 14px; }
+    .scale-guide h3 { font-size: 14px; }
+    .scale-item { font-size: 11px; padding: 5px 0; }
     .dot { width: 11px; height: 11px; }
 }
 </style>
@@ -136,6 +83,14 @@ body {
     </form>
     {{ result|safe }}
     
+    <div class="history-section" id="historySection">
+        <div class="history-header">
+            <h3>📚 تاریخچه تحلیل‌ها</h3>
+            <button class="btn-clear" onclick="clearHistory()">🗑️ پاک کردن</button>
+        </div>
+        <div id="historyList"></div>
+    </div>
+    
     <div class="scale-guide">
         <h3>📊 راهنمای امتیاز ریسک:</h3>
         <div class="scale-item"><span class="dot green"></span> <b>۰ - ۲۰٪:</b> کاملاً ایمن ✅</div>
@@ -145,5 +100,57 @@ body {
         <div class="scale-item"><span class="dot red"></span> <b>۸۰ - ۱۰۰٪:</b> کاملاً خطرناک ❌</div>
     </div>
 </div>
+
+<script>
+function saveToHistory(url, pred, score) {
+    let history = JSON.parse(localStorage.getItem('scanHistory') || '[]');
+    history.unshift({ url: url, pred: pred, score: score, date: new Date().toLocaleString('fa-IR') });
+    if (history.length > 10) history = history.slice(0, 10);
+    localStorage.setItem('scanHistory', JSON.stringify(history));
+    alert('✅ در تاریخچه ذخیره شد!');
+    loadHistory();
+}
+
+function loadHistory() {
+    let history = JSON.parse(localStorage.getItem('scanHistory') || '[]');
+    let section = document.getElementById('historySection');
+    let list = document.getElementById('historyList');
+    if (history.length === 0) {
+        section.style.display = 'none';
+        return;
+    }
+    section.style.display = 'block';
+    list.innerHTML = history.map(item => 
+        '<div class="history-item">' +
+        '<span class="badge ' + (item.pred === 1 ? 'badge-danger' : 'badge-safe') + '">' +
+        (item.pred === 1 ? 'کلاهبردار' : 'سالم') + '</span>' +
+        '<span class="url">' + item.url + '</span>' +
+        '</div>'
+    ).join('');
+}
+
+function clearHistory() {
+    if (confirm('مطمئنی می‌خوای تاریخچه رو پاک کنی؟')) {
+        localStorage.removeItem('scanHistory');
+        loadHistory();
+    }
+}
+
+function downloadPDF(url, pred, score) {
+    let text = '📄 گزارش تحلیل سایت\n\n';
+    text += 'URL: ' + url + '\n';
+    text += 'نتیجه: ' + (pred === 1 ? '❌ کلاهبردار' : '✅ سالم') + '\n';
+    text += 'امتیاز ریسک: ' + score + '%\n';
+    text += 'تاریخ: ' + new Date().toLocaleString('fa-IR') + '\n\n';
+    text += 'سیستم: سامانه هوشمند تشخیص کلاهبرداری\n';
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'report_' + Date.now() + '.txt';
+    link.click();
+}
+
+window.onload = loadHistory;
+</script>
 </body>
 </html>
